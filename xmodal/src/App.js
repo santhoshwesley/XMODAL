@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 function XModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +10,26 @@ function XModal() {
     phone: "",
     dob: "",
   });
+
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        handleCloseModal();
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -60,51 +80,57 @@ function XModal() {
         <button onClick={handleOpenModal}>Open Form</button>
       </div>
       {isOpen && (
-        <div className="modal-content ">
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              required
-            />
+        <div className="overlay">
+          <div className="modal-content" ref={modalRef}>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="username">Username:</label>
+              <input
+                type="text"
+                id="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                required
+              />
 
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-            />
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
 
-            <label htmlFor="phone">Phone Number:</label>
-            <input
-              type="tel"
-              id="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              required
-            />
+              <label htmlFor="phone">Phone Number:</label>
+              <input
+                type="tel"
+                id="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+              />
 
-            <label htmlFor="dob">Date of Birth:</label>
-            <input
-              type="date"
-              id="dob"
-              value={formData.dob}
-              onChange={handleInputChange}
-              required
-            />
+              <label htmlFor="dob">Date of Birth:</label>
+              <input
+                type="date"
+                id="dob"
+                value={formData.dob}
+                onChange={handleInputChange}
+                required
+              />
 
-            <button type="submit" className="submit-button">
-              Submit
-            </button>
-            <div onClick={handleCloseModal}>
-              <button className="close-button">Close</button>
-            </div>
-          </form>
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
+              <button
+                type="button"
+                className="close-button"
+                onClick={handleCloseModal}
+              >
+                Close
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>
