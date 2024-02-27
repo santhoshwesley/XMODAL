@@ -70,7 +70,7 @@ function XModal() {
         <button onClick={handleOpenModal}>Open Form</button>
       </div>
       {isOpen && (
-        <div className="modal-overlay">
+        <div className="modal overlay">
           <div className="modal-content" ref={modalRef}>
             <form onSubmit={handleSubmit}>
               <label htmlFor="username">Username:</label>
