@@ -15,14 +15,16 @@ function XModal() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      if (
+        isOpen &&
+        modalRef.current &&
+        !modalRef.current.contains(event.target)
+      ) {
         handleCloseModal();
       }
     }
 
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
