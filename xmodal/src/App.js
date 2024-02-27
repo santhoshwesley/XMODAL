@@ -13,13 +13,17 @@ function XModal() {
 
   const modalRef = useRef(null);
 
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     function handleClickOutside(event) {
-      if (
-        isOpen &&
-        modalRef.current &&
-        !modalRef.current.contains(event.target)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
         handleCloseModal();
       }
     }
@@ -29,25 +33,11 @@ function XModal() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
-  };
-
-  const handleOpenModal = () => {
-    setIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsOpen(false);
-    setFormData({
-      username: "",
-      email: "",
-      phone: "",
-      dob: "",
-    });
   };
 
   const handleSubmit = (e) => {
@@ -74,13 +64,13 @@ function XModal() {
   };
 
   return (
-    <div className="modal">
+    <div>
       <div className="initial-container">
         <h1>User Details Modal</h1>
         <button onClick={handleOpenModal}>Open Form</button>
       </div>
       {isOpen && (
-        <div className="overlay">
+        <div className="modal-overlay">
           <div className="modal-content" ref={modalRef}>
             <form onSubmit={handleSubmit}>
               <label htmlFor="username">Username:</label>
