@@ -54,13 +54,13 @@ function XModal() {
   };
 
   return (
-    <div className={isOpen ? "overlay" : "modal"}>
+    <div className="modal">
       <div className="initial-container">
         <h1>User Details Modal</h1>
         <button onClick={handleOpenModal}>Open Form</button>
       </div>
       {isOpen && (
-        <div className="modal-content">
+        <div className="modal-content ">
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username:</label>
             <input
